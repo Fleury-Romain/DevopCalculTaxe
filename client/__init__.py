@@ -55,6 +55,70 @@ class ServerHandler(BaseHTTPRequestHandler):
 
         # 3. apply taxes
 
+        ## Taxes
+        tax_rates = {
+            "DE": 0.20,  # Germany
+            "UK": 0.21,  # United Kingdom
+            "FR": 0.20,  # France
+            "IT": 0.25,  # Italy
+            "ES": 0.19,  # Spain
+            "PL": 0.21,  # Poland
+            "RO": 0.20,  # Romania
+            "NL": 0.20,  # Netherlands
+            "BE": 0.24,  # Belgium
+            "EL": 0.20,  # Greece
+            "CZ": 0.19,  # Czech Republic
+            "PT": 0.23,  # Portugal
+            "HU": 0.27,  # Hungary
+            "SE": 0.23,  # Sweden
+            "AT": 0.22,  # Austria
+            "BG": 0.21,  # Bulgaria
+            "DK": 0.21,  # Denmark
+            "FI": 0.17,  # Finland
+            "SK": 0.18,  # Slovakia
+            "IE": 0.21,  # Ireland
+            "HR": 0.23,  # Croatia
+            "LT": 0.23,  # Lithuania
+            "SI": 0.24,  # Slovenia
+            "LV": 0.20,  # Latvia
+            "EE": 0.22,  # Estonia
+            "CY": 0.21,  # Cyprus
+            "LU": 0.25,  # Luxembourg
+            "MT": 0.20   # Malta
+        }
+
+        def reduction(type,money):
+            if type == "STANDARD":
+                if money >= 50000:
+                    money = money * 0.85
+                elif money >= 10000:
+                    money = money * 0.9
+                elif money >= 7000:
+                    money = money * 0.93
+                elif money >= 5000:
+                    money = money * 0.95
+                elif money >= 1000:
+                    money = money * 0.97
+                else:
+                    money = money
+            else: 
+                money = 0
+            return money
+
+        x = '{"prices":[15.99,2],"quantities":[1,2],"country":"ES","reduction":"STANDARD"}'
+        y = json.loads(x)
+        taxd_total = 0
+
+        for x in range(len(y["prices"] )):
+            taxed = y["prices"][x] * y["quantities"][x] 
+            taxed = taxed + taxed * tax_rates[y["country"]]
+            taxed = reduction(y["reduction"],taxed)
+            taxd_total = taxd_total + taxed
+    
+        print(taxd_total)
+
+
+
         # 4. create response formated json
 
         # 5. send response
