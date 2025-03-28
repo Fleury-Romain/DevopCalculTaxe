@@ -46,9 +46,23 @@ class ServerHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         self.__write_response('hello world', 200)
 
+    def respondOrder(self, body_html_, code):
+        taxes = []
+
+        # 1. explode js
+
+        # 2. mutliply qty and price
+
+        # 3. apply taxes
+
+        # 4. create response formated json
+
+        # 5. send response
+
+
+
     def do_POST(self):
         {
-
             '/ping': lambda: self.__write_response('pong', 200),
             '/feedback': self.__feedback,
             '/path': self.__your_path,
